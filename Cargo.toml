@@ -1,0 +1,19 @@
+[package]
+name = "youtube-subtitle-generate"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { version = "1.0.86", features = ["backtrace"] }
+clap = { version = "4.5.11", features = ["derive"] }
+ffmpeg-sidecar = "1.1.0"
+futures = "0.3.30"
+hound = "3.5.1"
+rayon = "1.10.0"
+rusty_ytdl = "0.7.3"
+serde = { version = "1.0.204", features = ["derive"] }
+serde_json = "1.0.121"
+tokio = { version = "1.39.2", features = ["full"] }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["fmt"] }
+youtube_dl = { version = "0.10.0", features = ["tokio"] }
