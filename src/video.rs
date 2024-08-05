@@ -19,7 +19,7 @@ impl Video {
     #[tracing::instrument(err)]
     async fn _download(&self, channel_dir: &Path) -> Result<()> {
         YoutubeDl::new(&self.url)
-            // .format(r#"-f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best""#)
+            .format("bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best")
             .output_template(&self.title)
             .download_to_async(channel_dir)
             .await?;
