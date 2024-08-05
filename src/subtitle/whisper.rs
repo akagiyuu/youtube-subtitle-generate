@@ -7,6 +7,7 @@ pub fn run(audio_path: &Path) -> Result<()> {
     let output = Command::new("whisper")
         .current_dir(audio_path.parent().unwrap())
         .args(audio_path)
+        .args(["-f", "json"])
         .args(["--language", "vi"])
         .args(["--model", "large-v3"])
         .output()?;
