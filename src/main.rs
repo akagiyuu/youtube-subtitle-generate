@@ -16,15 +16,19 @@ use tracing_subscriber::{layer::SubscriberExt as _, util::SubscriberInitExt};
 
 #[derive(Parser, Debug)]
 struct Args {
+    /// Input file containing links of YouTube channel
     #[arg(short, long)]
     input: PathBuf,
 
+    /// Directory to save processed video segment
     #[arg(id = "output-dir", short, long)]
     output_dir: PathBuf,
 
+    /// Number of videos to process for each channel, process all videos if not specified
     #[arg(short, long)]
     amount: Option<usize>,
 
+    /// Wether to run script in parallel, the default is false
     #[arg(short, long, default_value_t = false)]
     parallel: bool,
 }
