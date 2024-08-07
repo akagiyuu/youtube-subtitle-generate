@@ -38,7 +38,7 @@ fn cut_and_save_video(
 
 fn to_timestamp(sec: f64) -> String {
     let msec = (sec.fract() * 1000.).round() as u64;
-    let mut sec = sec.round() as u64;
+    let mut sec = sec.floor() as u64;
     let hour = sec / (60 * 60);
     sec -= hour * 60 * 60;
     let min = sec / 60;
