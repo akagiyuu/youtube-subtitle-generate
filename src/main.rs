@@ -36,9 +36,7 @@ async fn process_channel(
     amount: Option<usize>,
     parallel: bool,
 ) -> Result<()> {
-    let channel = Channel {
-        url: url.to_string(),
-    };
+    let channel = Channel::new(url).await?;
     let channel_dir = &channel.get_channel_dir(output_dir);
     fs::create_dir_all(channel_dir).await?;
 
@@ -68,7 +66,7 @@ async fn process_channel(
     tracing::info!("Finish generate subtitle");
 
     Ok(())
-}
+ }
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -84,14 +82,7 @@ async fn main() -> Result<()> {
 
     channel_urls_raw
         .split('\n')
-        .map(|url| {
-            process_channel(
-                url.to_string(),
-                output_dir,
-                args.amount,
-                args.parallel,
-            )
-        })
+        .map(|url| process_channel(url.to_string(), output_dir, args.amount, args.parallel))
         .collect::<FuturesUnordered<_>>()
         .try_collect::<Vec<_>>()
         .await?;

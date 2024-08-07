@@ -1,7 +1,6 @@
 use std::path::{Path, PathBuf};
 
 use anyhow::Result;
-use rusty_ytdl::{VideoOptions, VideoQuality, VideoSearchOptions};
 use tokio::fs;
 use youtube_dl::YoutubeDl;
 

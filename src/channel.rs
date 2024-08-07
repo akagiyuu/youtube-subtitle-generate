@@ -1,10 +1,6 @@
 use anyhow::{Context, Result};
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
-use std::{
-    io::BufRead,
-    path::{Path, PathBuf},
-};
-use tokio::fs;
+use std::path::{Path, PathBuf};
 use youtube_dl::YoutubeDl;
 
 use crate::video::Video;
@@ -12,12 +8,32 @@ use crate::video::Video;
 #[derive(Debug)]
 pub struct Channel {
     pub url: String,
+    pub name: String,
 }
 
 impl Channel {
+    #[tracing::instrument(err)]
+    pub async fn new(url: String) -> Result<Self> {
+        let ytdlp_output = YoutubeDl::new(&url).playlist_items(1).run_async().await?;
+
+        let playlist = ytdlp_output
+            .into_playlist()
+            .context("Expect output to contain playlist")?;
+
+        let video = &playlist
+            .entries
+            .context("Expect playlist to contain 1 entry")?[0];
+
+        let name = video
+            .channel
+            .clone()
+            .context("Expect channel to have a name")?;
+
+        Ok(Self { url, name })
+    }
+
     pub fn get_channel_dir(&self, output_dir: &Path) -> PathBuf {
-        let name = self.url.split('/').last().expect("Expect valid link");
-        output_dir.join(name)
+        output_dir.join(&self.name)
     }
 
     #[tracing::instrument(err)]
@@ -57,18 +73,4 @@ impl Channel {
 
         Ok(videos)
     }
-}
-
-#[tracing::instrument(err)]
-pub async fn get_channels(input: &Path) -> Result<Vec<Channel>> {
-    let channels_raw = fs::read_to_string(input).await?;
-
-    let channels = channels_raw
-        .split("\n")
-        .map(|url| Channel {
-            url: url.to_string(),
-        })
-        .collect();
-
-    Ok(channels)
 }
