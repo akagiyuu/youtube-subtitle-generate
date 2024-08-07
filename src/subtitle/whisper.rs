@@ -4,7 +4,7 @@ use anyhow::Result;
 
 #[tracing::instrument(err)]
 pub fn run(audio_path: &Path) -> Result<()> {
-    let mut name = format!(
+    let name = format!(
         "{}",
         audio_path
             .components()

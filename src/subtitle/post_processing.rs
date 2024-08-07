@@ -1,7 +1,7 @@
 use std::path::Path;
-use std::{fs, str::FromStr};
+use std::fs;
 
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result};
 use ffmpeg_sidecar::{
     command::FfmpegCommand,
     event::{FfmpegEvent, LogLevel},
