@@ -1,5 +1,3 @@
-#![feature(iterator_try_collect)]
-
 pub mod channel;
 pub mod subtitle;
 pub mod video;
