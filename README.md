@@ -1,5 +1,9 @@
 # YouTube Subtitle Generator
 
+## Required tools
+
+- [Rustup](https://rustup.rs/) with either stable or nightly tool chain installed
+
 ## Run
 
 - Flags
@@ -19,5 +23,5 @@ Options:
 - Examples
 
 ```bash
-$ cargo run -- --input input.example.txt --output-dir data --amount 1 --parallel
+cargo run -- --input input.example.txt --output-dir data --amount 1 --parallel
 ```
